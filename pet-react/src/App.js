@@ -4,8 +4,7 @@ import ClassCounter from './Components/ClassCounter.jsx';
 
 
 function App() {
-  const [value, setValue] = useState('text');
-
+  
   return (
     <div className="App">
         <ClassCounter/>
