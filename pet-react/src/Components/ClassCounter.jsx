@@ -1,5 +1,7 @@
 import React from "react";
 
+//Пример создание классового эллемента
+//Счётчик на подобии калсса
 class ClassCounter extends React.Component {
 
     constructor(props) {

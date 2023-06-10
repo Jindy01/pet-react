@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 
+//Пример функционального блока
+//Создаёт счётчик с кнопками
 const Counter = function() {
 
     const [count, setCount] = useState(0);
