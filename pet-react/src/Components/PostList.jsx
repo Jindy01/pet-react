@@ -3,14 +3,14 @@ import PostItem from "./PostItem";
 
 //Создаёт список постов , примнимает название и содрежание с props(),
 //находящегося в App.js
-const PostList = ({posts, title}) => {
+const PostList = ({posts, title, remove}) => {
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>
                 {title}
             </h1>
             {posts.map((post, index) =>
-                <PostItem number={index + 1} post={post} key={post.id}/>
+                <PostItem remove={remove} number={index + 1} post={post} key={post.id}/>
             )}
         </div>
     );
