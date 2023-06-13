@@ -4,6 +4,15 @@ import PostItem from "./PostItem";
 //Создаёт список постов , примнимает название и содрежание с props(),
 //находящегося в App.js
 const PostList = ({posts, title, remove}) => {
+
+    if(!posts.length) {
+        return (
+            <h1 style={{textAlign: 'center'}}>
+            Посты не найдены
+        </h1>
+        )
+    }
+
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>
