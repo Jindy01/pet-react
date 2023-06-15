@@ -10,7 +10,8 @@ import PostForm from "./Components/PostForm";
 import MySelect from "./Components/UI/select/MySelect";
 import PostFilter from "./Components/PostFilter";
 import MyModal from "./Components/UI/MyModal/MyModal";
-
+import { Transition } from 'react-transition-group';
+import {usePosts} from "./hooks/usePosts";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -20,17 +21,7 @@ function App() {
     ])
     const [filter, setFilter] = useState({sort: '', query: '',})
     const [modal, setModal] = useState(false);
-
-    const sortedPosts = useMemo(() => {
-        if (filter.sort) {
-            return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
-        }
-        return posts;
-    }, [filter, posts])
-
-    const sortedAndSearchPosts = useMemo(() => {
-        return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query))
-    }, [filter.query, sortedPosts])
+    const sortedAndSearchPosts = usePosts(posts, filter.sort, filter.query);
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
