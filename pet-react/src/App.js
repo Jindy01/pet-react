@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 // import Counter from './Components.JSX/Counter';
 import ClassCounter from './Components/ClassCounter.jsx';
 import './styles/App.css';
@@ -12,16 +12,26 @@ import PostFilter from "./Components/PostFilter";
 import MyModal from "./Components/UI/MyModal/MyModal";
 import { Transition } from 'react-transition-group';
 import {usePosts} from "./hooks/usePosts";
+import axios from 'axios';
+import PostService from "./API/PostService";
+import Loader from "./Components/UI/Loader/Loader";
 
+
+//1:47 мин https://www.youtube.com/watch?v=GNrdg3PzpJQ&t=5800s //
 function App() {
     const [posts, setPosts] = useState([
         {id: 1, title: 'Бетус', body: 'Коморе'},
         {id: 2, title: 'Артус', body: 'Лемпо'},
         {id: 3, title: 'Питус', body: 'Фортейн'},
     ])
-    const [filter, setFilter] = useState({sort: '', query: '',})
+    const [filter, setFilter] = useState({sort: '', query: '',});
     const [modal, setModal] = useState(false);
-    const sortedAndSearchPosts = usePosts(posts, filter.sort, filter.query);
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+    const [isPostsLoading, setPostsLoading] = useState(false);
+
+    useEffect(() => {
+        fetchPosts()
+    }, [])
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
@@ -30,6 +40,13 @@ function App() {
 //Передаём пост из дочернего компонента
     const removePost = (post) => {
         setPosts(posts.filter(p => p.id !== post.id))
+}
+
+async function fetchPosts() {
+        setPostsLoading(true);
+        const posts = await PostService.getAll();
+    setPosts(posts)
+    setPostsLoading(false);
 }
 
   return (
@@ -47,7 +64,11 @@ function App() {
             filter={filter}
             setFilter={setFilter}
         />
-            <PostList remove={removePost} posts={sortedAndSearchPosts} title='JavaScript'></PostList>
+        {isPostsLoading
+            ? <Loader/>
+            : <PostList remove={removePost} posts={sortedAndSearchedPosts} title='JavaScript'></PostList>
+        }
+
      </div>
   )
 }
