@@ -13,7 +13,6 @@ const PostList = ({posts, title, remove}) => {
         </h1>
         )
     }
-
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>
@@ -33,5 +32,4 @@ const PostList = ({posts, title, remove}) => {
         </div>
     );
 };
-
 export default PostList;

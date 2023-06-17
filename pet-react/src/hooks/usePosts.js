@@ -20,7 +20,3 @@ export const usePosts = (posts, sort, query) => {
 
     return sortedAndSearchedPosts ;
 }
-
-
-//          Разобраться почему не так работают импорты или неравильно где-то сделанно переход на usePosts.js
-//      в общей сложности доделать export ...

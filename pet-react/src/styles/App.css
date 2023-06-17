@@ -1,5 +1,5 @@
 * {
-    margin: 0;
+    margin: 3px;
     padding: 0;
     box-sizing: border-box;
 }
@@ -35,4 +35,21 @@
 .post-exit-active {
     transform: translateX(-350px);
     transition: all 500ms ease-in;
+}
+
+.page__wrapper {
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.page {
+    padding: 10px;
+    border: 1px solid teal;
+    cursor: pointer;
+}
+
+.page__current {
+    border: 2px solid orange;
+    font-weight: bold;
 }

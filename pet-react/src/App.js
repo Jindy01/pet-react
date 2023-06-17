@@ -15,22 +15,31 @@ import {usePosts} from "./hooks/usePosts";
 import axios from 'axios';
 import PostService from "./API/PostService";
 import Loader from "./Components/UI/Loader/Loader";
+import {useFetching} from "./hooks/useFetching";
+import {getPageCount, getPagesArray} from "./utils/pages";
+import Pagination from "./Components/UI/pagination/Pagination";
 
+//2:00 мин Домашнее задание в виде UseMemo()//
+//1:52 мин https://www.youtube.com/watch?v=GNrdg3PzpJQ&t=5800s //
 
-//1:47 мин https://www.youtube.com/watch?v=GNrdg3PzpJQ&t=5800s //
 function App() {
-    const [posts, setPosts] = useState([
-        {id: 1, title: 'Бетус', body: 'Коморе'},
-        {id: 2, title: 'Артус', body: 'Лемпо'},
-        {id: 3, title: 'Питус', body: 'Фортейн'},
-    ])
+    const [posts, setPosts] = useState([])
     const [filter, setFilter] = useState({sort: '', query: '',});
     const [modal, setModal] = useState(false);
+    const [totalPages, setTotalPages] = useState(0);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-    const [isPostsLoading, setPostsLoading] = useState(false);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+
+    const [fetchPosts, isPostsLoading, postError] = useFetching(async (limit, page) => {
+        const response = await PostService.getAll(limit, page)
+        setPosts(response.data)
+        const totalCount = response.headers['x-total-count'];
+        setTotalPages(getPageCount(totalCount, limit))
+    })
 
     useEffect(() => {
-        fetchPosts()
+        fetchPosts(limit, page)
     }, [])
 
     const createPost = (newPost) => {
@@ -41,13 +50,10 @@ function App() {
     const removePost = (post) => {
         setPosts(posts.filter(p => p.id !== post.id))
 }
-
-async function fetchPosts() {
-        setPostsLoading(true);
-        const posts = await PostService.getAll();
-    setPosts(posts)
-    setPostsLoading(false);
-}
+    const changePage = (page) => {
+        setPage(page)
+        fetchPosts(limit, page)
+    }
 
   return (
     <div className="App">
@@ -64,12 +70,19 @@ async function fetchPosts() {
             filter={filter}
             setFilter={setFilter}
         />
+        {postError &&
+            <h1>Произошла ошибка ${postError}</h1>
+        }
         {isPostsLoading
-            ? <Loader/>
+            ? <div style={{display: "flex", justifyContent: "center", marginTop: 50}}> <Loader/> </div>
             : <PostList remove={removePost} posts={sortedAndSearchedPosts} title='JavaScript'></PostList>
         }
-
+        <Pagination page={page}
+                    changePage={changePage}
+                    totalPages={totalPages}
+        />
      </div>
+
   )
 }
 
