@@ -1,0 +1,8 @@
+{
+  "name": "pet-react",
+  "version": "1.0.0",
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-router-dom": "^6.13.0"
+  }
+}
