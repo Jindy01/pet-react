@@ -88,3 +88,38 @@ function App() {
 }
 
 export default App;
+
+
+
+import React from 'react';
+import Navbar from "./UI/Navbar/Navbar";
+import {BrowserRouter, Navigate, Route, Routes, useParams} from "react-router-dom";
+import About from "../pages/About";
+import Posts from "../pages/Posts";
+import Error from "../pages/Error";
+import PostIdPage from "../pages/PostIdPage";
+import {routes} from '../router'
+
+
+
+
+
+const AppRouter = () => {
+    return (
+        <Routes>
+
+            <Route path='/' element={<Navigate to='/posts' replace={true}/>}/>
+
+            <Route path='posts/:id' element={<PostIdPage/>}/>
+
+            <Route path='/about' element={<About />}/>
+
+            <Route path='/posts' element={<Posts/>}/>
+
+            <Route path='/error' element={<Error/>}/>
+
+            <Route path='*' element={<Navigate to='/error' replace={true}/>}/>
+
+        </Routes>
+    );
+};

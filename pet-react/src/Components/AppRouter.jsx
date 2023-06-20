@@ -1,26 +1,25 @@
 import React from 'react';
 import Navbar from "./UI/Navbar/Navbar";
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import About from "../pages/About";
-import Posts from "../pages/Posts";
-import Error from "../pages/Error";
+import {BrowserRouter, Navigate, Route, Routes, useParams} from "react-router-dom";
+import PostIdPage from "../pages/PostIdPage";
+import {routes} from '../router'
+
 
 const AppRouter = () => {
     return (
-            <BrowserRouter>
-                <Navbar/>
-                <Routes>
-                    <Route path='/about' element={<About />}/>
+        <Routes>
+            {/*<Route path='/' element={<Navigate to='/posts' replace={true}/>}/>*/}
 
-                    <Route path='/posts' element={<Posts/>}/>
+            {routes.map(route => {
+                <Route
+                    path={route.path}
+                    element={route.component}
+                    match={route.match}
+                />
+            })}
+            {/*<Route path='*' element={<Navigate to='/error' replace={true}/>}/>*/}
 
-                    <Route path='/error' element={<Error/>}/>
-
-                    <Route path='*' element={<><Navigate to='/error' replace={true}/></>}/>
-
-                    // Доделать что бы можно было перемещаться между страничками //
-                </Routes>
-            </BrowserRouter>
+        </Routes>
     );
 };
 
