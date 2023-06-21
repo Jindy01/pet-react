@@ -2,9 +2,15 @@ import React from 'react';
 import PostIdPage from "../pages/PostIdPage";
 import Posts from '../pages/Posts';
 import About from '../pages/About'
+import Login from "../pages/Login";
 
-export const routes = [
-    {path: '/about', component: About, match: true,},
-    {path: '/posts', component: Posts, match: true,},
-    {path: '/posts/:id', component: PostIdPage, match: true,},
+
+export const privateRoutes = [
+    {path: '/about', component: About, },
+    {path: '/posts', component: Posts, },
+    {path: '/posts/:id', component: PostIdPage, },
+]
+
+export const publicRoutes = [
+    {path: '/login', component: Login, },
 ]

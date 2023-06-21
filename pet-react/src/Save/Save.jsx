@@ -123,3 +123,45 @@ const AppRouter = () => {
         </Routes>
     );
 };
+
+
+
+import React from 'react';
+import Navbar from "./UI/Navbar/Navbar";
+import {BrowserRouter, Navigate, Route, Routes, useParams} from "react-router-dom";
+import {publicRoutes, privateRoutes} from '../router'
+import About from "../pages/About";
+import Posts from "../pages/Posts";
+import Error from "../pages/Error";
+import PostIdPage from "../pages/PostIdPage";
+
+
+const AppRouter = () => {
+    const isAuth = true;
+    return (
+        isAuth
+            ? // Тернальный оператор
+            <Routes>
+                <Route path='/' element={<Navigate to='/posts' replace={true}/>}/>
+                {privateRoutes.map(route =>
+                    <Route
+                        path={route.path}
+                        element={<route.component/>}
+                    />
+                )}
+                <Route path='*' element={<Navigate to='/error' replace={true}/>}/>
+            </Routes>
+            : // Подопечный тернального оператора
+
+            <Routes>
+                {publicRoutes.map(route =>
+                    <Route
+                        path={route.path}
+                        element={<route.component/>}
+                    />
+                )}
+
+                <Route path='*' element={<Navigate to='/error' replace={true}/>}/>
+            </Routes>
+    );
+};
