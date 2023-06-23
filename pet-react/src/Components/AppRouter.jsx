@@ -7,16 +7,21 @@ import Posts from "../pages/Posts";
 import Error from "../pages/Error";
 import PostIdPage from "../pages/PostIdPage";
 import {AuthContext} from "../context";
+import Loader from "./UI/Loader/Loader";
 
 
 const AppRouter = () => {
-    const {isAuth, setIsAuth} = useContext(AuthContext)
-    console.log(setIsAuth)
+    const {isAuth, isLoading} = useContext(AuthContext)
+
+    if(isLoading) {
+        return <Loader/>
+    }
+
     return (
         isAuth
             ? // Тернальный оператор
             <Routes>
-                <Route path='/' element={<Navigate to='/posts' replace={true}/>}/>
+                <Route path='/' element={<Navigate to='/error' replace={true}/>}/>
                 {privateRoutes.map(route =>
                     <Route
                         path={route.path}
@@ -24,10 +29,10 @@ const AppRouter = () => {
                         key={route.path}
                     />
                 )}
-                <Route path='*' element={<Navigate to='/error' replace={true}/>}/>
+                <Route path='*' element={<Navigate to='/posts' replace={true}/>}/>
+
             </Routes>
             : // Подопечный тернального оператора
-
             <Routes>
                 {publicRoutes.map(route =>
                     <Route
@@ -36,7 +41,6 @@ const AppRouter = () => {
                         key={route.path}
                     />
                 )}
-
                 <Route path='*' element={<Navigate to='/login' replace={true}/>}/>
             </Routes>
 
